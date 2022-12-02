@@ -87,3 +87,33 @@ elif x == 2 :
         password = input("Reenter your password: ")
         u = user(username, password)
     print("Welcome user")
+  print("Press 1 to show all available venues\n" +
+                  "Press 2 to book a venue\n" +
+                  "Press 3 to end the program\n")
+    answer = int(input("Please enter a valid number: "))
+    while answer != 3:  #start of while
+        while answer < 1 or answer > 3: #start of verification while
+            answer = int(input("Please enter a number between 1 and 3"))
+            #end of verification while
+        if answer == 1:
+            file = open('venues.txt','r')
+            content = file.read()
+            print(content)
+            answer = 0
+        elif answer == 2:
+            booking = input("Please input the name of the venue you would like to book: ")
+            tourists = int(input("How many people are visiting this venue: "))
+            year = int(input('Enter a year: '))
+            month = int(input('Enter a month: '))
+            day = int(input('Enter a day: '))
+            time = int(input('Enter what time you are going to be visiting: '))
+            d = date(year, month, day)         #figuring out what tourist season it is (important for later)
+            while booking_exists(booking,d,highseasonstart1,highseasonend1,highseasonstart2,highseasonend2,midseasonstart,midseasonend) is False:
+                booking = input("Theres too many bookings for this venue at this time, please select another one: ")
+            add_booking = booking + " | " + str(tourists) + " | " + str(d) + str(time) + "\n"
+            text_file = open("bookings.txt", "a")       # opening file
+            text_file.write(add_booking)                  # writing in file
+            text_file.close()                           # closing file
+            answer = 0
+        else:
+            break
