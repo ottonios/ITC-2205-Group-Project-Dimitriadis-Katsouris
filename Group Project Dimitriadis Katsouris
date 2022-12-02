@@ -55,3 +55,11 @@ class user:
                     return True
         return False
            
+#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+highseasonstart1 = date(2022,2,15)
+highseasonend1 = date(2022,3,31)
+highseasonstart2 = date(2022,10,15)
+highseasonend2 = date(2022,11,15)
+midseasonstart = date(2022,4,1)
+midseasonend = date(2022,5,14)
+x = int(input("Please register by pressing 1 , login by pressing 2, or login as administrator by pressing 3: "))
