@@ -67,3 +67,23 @@ while x < 1 or x > 3:  #start of while
         answer = int(input("Please enter a number between 1 and 3"))
         if x == 1 or x ==2 or x == 3:
             break
+if x == 1:
+    # REGISTRATION
+    username = input("Please provide a username for your account: ")
+    password = input("Please provide a password for your account: ")
+    u = user(username, password)
+    while u.register() is False: #start of username verification
+        username = input("This name has already been taken, please input another one: ")
+        u = user(username, password)        
+    #end of username verification
+    x = 2
+elif x == 2 :
+    # LOGIN
+    username = input("Please provide your username: ")
+    password = input("Please enter your password: ")
+    u = user(username,password)
+    while u.login() is False: #start of login verification
+        username = input("Reenter your username: ")
+        password = input("Reenter your password: ")
+        u = user(username, password)
+    print("Welcome user")
