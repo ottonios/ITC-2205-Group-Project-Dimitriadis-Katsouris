@@ -1,3 +1,29 @@
+#Created by Ioannis-Iason Dimitriadis and Othonas Katsouris 05/12/2022
+from datetime import date, datetime
+import os
+
+class venue:
+    def __init__(self):          #constructor
+        self.name = input('Enter the name of the industrial sight: ')
+        self.location = input('Enter the place that this industrial sight is located: ')
+        self.mtime = input('Enter the times that these sights are open to the public in the morning: ')
+        self.atime = input('Enter the times that these sights are open to the public in the afternoon: ')
+
+    def add_venue(self):     #adding venues to file function
+        add_venue = self.name + " | " + self.location + " | " + self.mtime + " | " + self.atime + "\n"
+        text_file = open("venues.txt", "a")  # opening file
+        text_file.write(add_venue)                    # writing in file
+        text_file.close()                           # closing file
+
+    def delete_venue(self, delete):  #deleting venues from file function
+        with open("venues.txt", "r") as input:       #uses venues as input file
+            with open("temp.txt", "w") as output:           #uses temp as a temporary output file
+                for line in input:
+                    if delete not in line.strip("\n"):      #if the keyword delete is anywhere within the file, delete the entire line
+                        output.write(line)
+        os.remove("venues.txt")
+        os.replace('temp.txt', 'venues.txt')         #rename temp to venues
+
 class user:
     def __init__(self,username,password):          #constructor
         self.username = username
