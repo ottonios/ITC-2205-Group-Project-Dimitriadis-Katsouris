@@ -148,6 +148,34 @@ else:
                 "Press 6 to end the program\n")
         answer = int(input("Please enter a valid number: "))
         while answer != 6:  #start of while
-            while answer < 1 or answer > 6: #start of verification while
+              while answer < 1 or answer > 6: #start of verification while
                 answer = int(input("Please enter a number between 1 and 6"))
                 #end of verification while
+                  if answer == 1:
+                                v = venue()
+                                v.add_venue()
+                                answer = 0
+                            elif answer == 2:
+                                delete =input("Please input the name of the venue you want to delete")
+                                venue.delete_venue(delete)
+                                answer = 0
+                            elif answer == 3:
+                                delete = input("Which venue would you like to change?")
+                                v = venue()
+                                v.delete_venue(delete)
+                                v.add_venue()
+                                answer = 0
+                            elif answer == 4:
+                                file = open('venues.txt','r')
+                                content = file.read()
+                                print(content)
+                                answer = 0
+                            elif answer == 5:
+                                file = open('bookings.txt','r')
+                                content = file.read()
+                                print(content)
+                                answer = 0
+                            else:
+                                break
+                #end of admin menu
+                #end of while
