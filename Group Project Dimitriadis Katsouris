@@ -54,7 +54,22 @@ class user:
                 if username_array[0]==self.username and username_array[1][:-1]==self.password: # python adds the new line as a new character. when i slice the password it has an extra character that i remove using [:-1]
                     return True
         return False
-           
+
+def booking_exists(booking,d,highseasonstart1,highseasonend1,highseasonstart2,highseasonend2,midseasonstart,midseasonend):
+        with open ('bookings.txt', 'r') as file:     #r means that it reads
+            lines = file.readlines()
+            count = 0
+            for line in lines:
+                bookings_array = line.split("|")
+                if bookings_array[0]==booking :
+                    count = count + 1
+                    if (d >= highseasonstart1 and d <=highseasonend1) or (d >= highseasonstart2 and d <=highseasonend2):
+                        if count > 4:                                                                          #PLACEHOLDER NUMBER
+                            return False
+                    elif (d >= midseasonstart and d <=midseasonlow):
+                        if count > 10:
+                            return False
+        return True
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 highseasonstart1 = date(2022,2,15)
 highseasonend1 = date(2022,3,31)
