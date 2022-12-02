@@ -132,3 +132,22 @@ elif x == 2 :
             answer = 0
         else:
             break
+else:
+# admin user name and password = admin
+    username = input("Please provide your username: ")
+    password = input("Please enter your password: ")
+    if username == "admin" and password == "admin":
+#start of admin while
+#start of admin menu
+        print("Welcome administrator")
+        print("Press 1 to add a venue\n" +
+                "Press 2 to delete a venue\n" +
+                "Press 3 to modify a venue\n" +
+                "Press 4 to show all venues\n" +
+                "Press 5 to show all bookings\n" +
+                "Press 6 to end the program\n")
+        answer = int(input("Please enter a valid number: "))
+        while answer != 6:  #start of while
+            while answer < 1 or answer > 6: #start of verification while
+                answer = int(input("Please enter a number between 1 and 6"))
+                #end of verification while
