@@ -63,3 +63,7 @@ highseasonend2 = date(2022,11,15)
 midseasonstart = date(2022,4,1)
 midseasonend = date(2022,5,14)
 x = int(input("Please register by pressing 1 , login by pressing 2, or login as administrator by pressing 3: "))
+while x < 1 or x > 3:  #start of while
+        answer = int(input("Please enter a number between 1 and 3"))
+        if x == 1 or x ==2 or x == 3:
+            break
