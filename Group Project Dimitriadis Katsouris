@@ -1,76 +1,84 @@
-#Created by Ioannis-Iason Dimitriadis and Othonas Katsouris 05/12/2022
-from datetime import date, datetime
+# Created by Ioannis-Iason Dimitriadis and Othon Katsouris 05/12/2022
+from datetime import date
 import os
 
+
 class venue:
-    def __init__(self):          #constructor
+    def __init__(self):  # constructor
         self.name = input('Enter the name of the industrial sight: ')
         self.location = input('Enter the place that this industrial sight is located: ')
         self.mtime = input('Enter the times that these sights are open to the public in the morning: ')
         self.atime = input('Enter the times that these sights are open to the public in the afternoon: ')
 
-    def add_venue(self):     #adding venues to file function
-        add_venue = self.name + " | " + self.location + " | " + self.mtime + " | " + self.atime + "\n"
+    def add_venue(self):  # adding venues to file function
+        add_venue = self.name + " , " + self.location + " , " + self.mtime + " , " + self.atime + "\n"
         text_file = open("venues.txt", "a")  # opening file
-        text_file.write(add_venue)                    # writing in file
-        text_file.close()                           # closing file
+        text_file.write(add_venue)  # writing in file
+        text_file.close()  # closing file
 
-    def delete_venue(self, delete):  #deleting venues from file function
-        with open("venues.txt", "r") as input:       #uses venues as input file
-            with open("temp.txt", "w") as output:           #uses temp as a temporary output file
-                for line in input:
-                    if delete not in line.strip("\n"):      #if the keyword delete is anywhere within the file, delete the entire line
-                        output.write(line)
-        os.remove("venues.txt")
-        os.replace('temp.txt', 'venues.txt')         #rename temp to venues
 
 class user:
-    def __init__(self,username,password):          #constructor
+    def __init__(self, username, password):  # constructor
         self.username = username
         self.password = password
 
     def username_exists(self):
-        with open ('logins.txt', 'r') as file:     #r means that it reads
+        with open('logins.txt', 'r') as file:  # r means that it reads
             lines = file.readlines()
             for line in lines:
-                username_array = line.split("|")
-                if username_array[0]==self.username:
+                username_array = line.split(",")
+                if username_array[0] == self.username:
                     return True
         return False
-           
+
     def register(self):
         if self.username_exists():
             return False
-        with open ('logins.txt', 'a') as file:     #a+ means that it appends
-            newline = self.username + "|" + self.password + "\n"
+        with open('logins.txt', 'a') as file:  # a+ means that it appends
+            newline = self.username + "," + self.password + "\n"
             file.write(newline)
         return True
 
     def login(self):
-        with open ('logins.txt', 'r') as file:     #r means that it reads
+        with open('logins.txt', 'r') as file:  # r means that it reads
             lines = file.readlines()
             for line in lines:
-                username_array = line.split("|")
-                if username_array[0]==self.username and username_array[1][:-1]==self.password: # python adds the new line as a new character. when i slice the password it has an extra character that i remove using [:-1]
+                username_array = line.split(",")
+# python adds the new line as a new character.
+# when we slice the password it has an extra character that we remove using [:-1]
+                if username_array[0] == self.username and username_array[1][
+                                                          :-1] == self.password:
                     return True
         return False
 
-def booking_exists(booking,d,highseasonstart1,highseasonend1,highseasonstart2,highseasonend2,midseasonstart,midseasonend):
-        with open ('bookings.txt', 'r') as file:     #r means that it reads
-            lines = file.readlines()
-            count = 0
-            for line in lines:
-                bookings_array = line.split("|")
-                if bookings_array[0]==booking :
+
+def booking_exists(booking, d, highseasonstart1, highseasonend1, highseasonstart2, highseasonend2, midseasonstart,
+                   midseasonend):
+    with open('bookings.txt', 'r') as file:  # r means that it reads
+        lines = file.readlines()
+        count = 0
+        for line in lines:
+            bookings_array = line.split(",")
+            if bookings_array[0] == booking:
+                if (d >= highseasonstart1 and d <= highseasonend1) or (d >= highseasonstart2 and d <= highseasonend2):
                     count = count + 1
-                    if (d >= highseasonstart1 and d <=highseasonend1) or (d >= highseasonstart2 and d <=highseasonend2):
-                        if count > 4:                                                                          #PLACEHOLDER NUMBER
-                            return False
-                    elif (d >= midseasonstart and d <=midseasonlow):
-                        if count > 10:
-                            return False
-        return True
-#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                    if count > 4:
+                        return False
+                elif (d >= midseasonstart and d <= midseasonend):
+                    if count > 10:
+                        return False
+    return True
+
+def delete_venue(delete):  # deleting venues from file function
+    with open("venues.txt", "r") as input:       # uses venues as input file
+        with open("temp.txt", "w") as output:           # uses temp as a temporary output file
+            for line in input:
+                # if the keyword delete is anywhere within the file, delete the entire line
+                if delete not in line.strip("\n"):
+                    output.write(line)
+    os.remove("venues.txt")
+    os.replace('temp.txt', 'venues.txt')         # rename temp to venues
+#---------------------------------------------------------------------START OF MAIN PROGRAM------------------------------------------------------------------------
 highseasonstart1 = date(2022,2,15)
 highseasonend1 = date(2022,3,31)
 highseasonstart2 = date(2022,10,15)
@@ -157,12 +165,12 @@ else:
                                 answer = 0
                             elif answer == 2:
                                 delete =input("Please input the name of the venue you want to delete")
-                                venue.delete_venue(delete)
+                                delete_venue(delete)
                                 answer = 0
                             elif answer == 3:
                                 delete = input("Which venue would you like to change?")
                                 v = venue()
-                                v.delete_venue(delete)
+                                delete_venue(delete)
                                 v.add_venue()
                                 answer = 0
                             elif answer == 4:
