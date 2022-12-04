@@ -79,111 +79,165 @@ def delete_venue(delete):  # deleting venues from file function
     os.remove("venues.txt")
     os.replace('temp.txt', 'venues.txt')         # rename temp to venues
 #---------------------------------------------------------------------START OF MAIN PROGRAM------------------------------------------------------------------------
-highseasonstart1 = date(2022,2,15)
-highseasonend1 = date(2022,3,31)
-highseasonstart2 = date(2022,10,15)
-highseasonend2 = date(2022,11,15)
-midseasonstart = date(2022,4,1)
-midseasonend = date(2022,5,14)
-x = int(input("Please register by pressing 1 , login by pressing 2, or login as administrator by pressing 3: "))
-while x < 1 or x > 3:  #start of while
-        answer = int(input("Please enter a number between 1 and 3"))
-        if x == 1 or x ==2 or x == 3:
+# Creation of industrial tourism seasons
+highseasonstart1 = date(2022, 2, 15)
+highseasonend1 = date(2022, 3, 31)
+highseasonstart2 = date(2022, 10, 15)
+highseasonend2 = date(2022, 11, 15)
+midseasonstart = date(2022, 4, 1)
+midseasonend = date(2022, 5, 14)
+
+# Making sure the input given is an integer
+while True:
+    x = input("Please register by pressing 1 , login by pressing 2, or login as administrator by pressing 3: ")
+    try:
+        x = int(x)
+        if 1 <= x <= 3:
             break
+    except:
+        continue
+
+# Registration of user
 if x == 1:
-    # REGISTRATION
+    # Username and password input
     username = input("Please provide a username for your account: ")
     password = input("Please provide a password for your account: ")
     u = user(username, password)
-    while u.register() is False: #start of username verification
+    # Making sure there are no users with the same username
+    # Start of username verification
+    while u.register() is False:
         username = input("This name has already been taken, please input another one: ")
-        u = user(username, password)        
-    #end of username verification
+        u = user(username, password)
+    # End of username verification
     x = 2
-elif x == 2 :
-    # LOGIN
+    print("Registration successful")
+elif x == 2:
+
+    # Login of users
     username = input("Please provide your username: ")
     password = input("Please enter your password: ")
-    u = user(username,password)
-    while u.login() is False: #start of login verification
+    u = user(username, password)
+    # Verifying credentials of user
+    # Start of login verification
+    while u.login() is False:
         username = input("Reenter your username: ")
         password = input("Reenter your password: ")
         u = user(username, password)
+        # Start of user menu
     print("Welcome user")
-  print("Press 1 to show all available venues\n" +
-                  "Press 2 to book a venue\n" +
-                  "Press 3 to end the program\n")
-    answer = int(input("Please enter a valid number: "))
-    while answer != 3:  #start of while
-        while answer < 1 or answer > 3: #start of verification while
-            answer = int(input("Please enter a number between 1 and 3"))
-            #end of verification while
-        if answer == 1:
-            file = open('venues.txt','r')
-            content = file.read()
-            print(content)
-            answer = 0
-        elif answer == 2:
-            booking = input("Please input the name of the venue you would like to book: ")
-            tourists = int(input("How many people are visiting this venue: "))
-            year = int(input('Enter a year: '))
-            month = int(input('Enter a month: '))
-            day = int(input('Enter a day: '))
-            time = int(input('Enter what time you are going to be visiting: '))
-            d = date(year, month, day)         #figuring out what tourist season it is (important for later)
-            while booking_exists(booking,d,highseasonstart1,highseasonend1,highseasonstart2,highseasonend2,midseasonstart,midseasonend) is False:
-                booking = input("Theres too many bookings for this venue at this time, please select another one: ")
-            add_booking = booking + " | " + str(tourists) + " | " + str(d) + str(time) + "\n"
-            text_file = open("bookings.txt", "a")       # opening file
-            text_file.write(add_booking)                  # writing in file
-            text_file.close()                           # closing file
-            answer = 0
+    print("Press 1 to show all available venues\n" + "Press 2 to book a venue\n" + "Press 3 to end the program\n")
+    while True:
+        # Making sure the input given is an integer and between 1 and 3
+        answer = input("Please enter a number between 1 and 3")
+        try:
+            answer = int(answer)
+            while 1 <= answer <= 3:
+                if answer == 1:
+                    # Open venues.txt file and display its ifo
+                    print("The venues available are:")
+                    file = open('venues.txt', 'r')
+                    content = file.read()
+                    print(content)
+                    answer = 0
+                elif answer == 2:
+                    # Input of info for each booking
+                    booking = input("Please input the name of the venue you would like to book: ")
+                    tourists = input("How many people are visiting this venue: ")
+                    year = int(input('Enter a year: '))
+                    month = int(input('Enter a month: '))
+                    day = int(input('Enter a day: '))
+                    time = input('Enter what time you are going to be visiting: ')
+                    # Figuring out what tourist season is
+                    d = date(year, month, day)
+                    while booking_exists(booking, d, highseasonstart1, highseasonend1, highseasonstart2, highseasonend2,
+                                         midseasonstart, midseasonend) is False:
+                        booking = input(
+                            "Theres too many bookings for this venue at this time, please select another one: ")
+                    add_booking = booking + " , " + tourists + " , " + str(d) + " , " + time + "\n"
+                    # Opening file
+                    text_file = open("bookings.txt", "a")
+                    # Writing in file
+                    text_file.write(add_booking)
+                    text_file.close()
+                    # Closing file
+                    print("Booking made successfully")
+                    answer = 0
+                else:
+                    break
+        except:
+            continue
         else:
-            break
+            # Exit the program
+            if answer == 3:
+                print("Goodbye")
+                break
+
 else:
-# admin user name and password = admin
+    # Admin user_name and password = admin
     username = input("Please provide your username: ")
     password = input("Please enter your password: ")
     if username == "admin" and password == "admin":
-#start of admin while
-#start of admin menu
+        # start of Admin while
+        # start of Admin menu
         print("Welcome administrator")
         print("Press 1 to add a venue\n" +
-                "Press 2 to delete a venue\n" +
-                "Press 3 to modify a venue\n" +
-                "Press 4 to show all venues\n" +
-                "Press 5 to show all bookings\n" +
-                "Press 6 to end the program\n")
-        answer = int(input("Please enter a valid number: "))
-        while answer != 6:  #start of while
-              while answer < 1 or answer > 6: #start of verification while
-                answer = int(input("Please enter a number between 1 and 6"))
-                #end of verification while
-                  if answer == 1:
-                                v = venue()
-                                v.add_venue()
-                                answer = 0
-                            elif answer == 2:
-                                delete =input("Please input the name of the venue you want to delete")
-                                delete_venue(delete)
-                                answer = 0
-                            elif answer == 3:
-                                delete = input("Which venue would you like to change?")
-                                v = venue()
-                                delete_venue(delete)
-                                v.add_venue()
-                                answer = 0
-                            elif answer == 4:
-                                file = open('venues.txt','r')
-                                content = file.read()
-                                print(content)
-                                answer = 0
-                            elif answer == 5:
-                                file = open('bookings.txt','r')
-                                content = file.read()
-                                print(content)
-                                answer = 0
-                            else:
-                                break
-                #end of admin menu
-                #end of while
+              "Press 2 to delete a venue\n" +
+              "Press 3 to modify a venue\n" +
+              "Press 4 to show all venues\n" +
+              "Press 5 to show all bookings\n" +
+              "Press 6 to end the program\n")
+        while True:
+            # Making sure the input given is an integer and between 1 and 6
+            answer = input("Please enter a number between 1 and 6: ")
+            try:
+                answer = int(answer)
+                while 1 <= answer <= 6:
+                    if answer == 1:
+                        # Adding the venue info in venues.txt with function
+                        v = venue()
+                        v.add_venue()
+                        print("Venue added")
+                        answer = 0
+                    elif answer == 2:
+                        # Deleting a venues info from venues.txt with function
+                        delete = input("Please input the name of the venue you want to delete")
+                        delete_venue(delete)
+                        print("Venue deleted")
+                        answer = 0
+                    elif answer == 3:
+                        # Modifying a venues info from venues.txt with function
+                        delete = input("Which venue would you like to change?")
+                        v = venue()
+                        delete_venue(delete)
+                        v.add_venue()
+                        print("Venue modified")
+                        answer = 0
+                    elif answer == 4:
+                        # Displaying the info from the venues.txt file
+                        print("The venues available are:")
+                        file = open('venues.txt', 'r')
+                        content = file.read()
+                        print(content)
+                        answer = 0
+                    elif answer == 5:
+                        # Displaying the bookings info from the bookings.txt file
+                        print("The bookings being made are:")
+                        file = open('bookings.txt', 'r')
+                        content = file.read()
+                        print(content)
+                        answer = 0
+                    else:
+                        # Exit the program
+                        break
+                # End of while
+            except:
+                continue
+            else:
+                if answer == 6:
+                    print("Goodbye")
+                    break
+    else:
+        # If credentials of admin are false end the program
+        print("You are not the administrator. Terminating the program")
+        # End of admin menu
+
