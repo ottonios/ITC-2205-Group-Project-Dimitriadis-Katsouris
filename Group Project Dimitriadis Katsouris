@@ -104,6 +104,7 @@ if x == 1:
     password = input("Please provide a password for your account: ")
     u = user(username, password)
     # Making sure there are no users with the same username
+    # If yes the program just asks for a new name
     # Start of username verification
     while u.register() is False:
         username = input("This name has already been taken, please input another one: ")
