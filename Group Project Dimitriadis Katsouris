@@ -292,6 +292,7 @@ else:
             except:
                 continue
             else:
+                # Exit the program
                 if answer == 6:
                     print("Goodbye")
                     break
