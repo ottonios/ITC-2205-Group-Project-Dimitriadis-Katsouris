@@ -112,6 +112,64 @@ if x == 1:
     # End of username verification
     x = 2
     print("Registration successful")
+    # Login of users
+    username = input("Please provide your username: ")
+    password = input("Please enter your password: ")
+    u = user(username, password)
+    # Verifying credentials of user
+    # Start of login verification
+    while u.login() is False:
+        username = input("Reenter your username: ")
+        password = input("Reenter your password: ")
+        u = user(username, password)
+        # Start of user menu
+    print("Welcome user")
+    print("Press 1 to show all available venues\n" + "Press 2 to book a venue\n" + "Press 3 to end the program\n")
+    while True:
+        # Making sure the input given is an integer and between 1 and 3
+        answer = input("Please enter a number between 1 and 3")
+        try:
+            answer = int(answer)
+            while 1 <= answer <= 3:
+                if answer == 1:
+                    # Open venues.txt file and display its ifo
+                    print("The venues available are:")
+                    file = open('venues.txt', 'r')
+                    content = file.read()
+                    print(content)
+                    answer = 0
+                elif answer == 2:
+                    # Input of info for each booking
+                    booking = input("Please input the name of the venue you would like to book: ")
+                    tourists = input("How many people are visiting this venue: ")
+                    year = int(input('Enter a year: '))
+                    month = int(input('Enter a month: '))
+                    day = int(input('Enter a day: '))
+                    time = input('Enter what time you are going to be visiting: ')
+                    # Figuring out what tourist season is
+                    d = date(year, month, day)
+                    while booking_exists(booking, d, highseasonstart1, highseasonend1, highseasonstart2, highseasonend2,
+                                         midseasonstart, midseasonend) is False:
+                        booking = input(
+                            "Theres too many bookings for this venue at this time, please select another one: ")
+                    add_booking = booking + " , " + tourists + " , " + str(d) + " , " + time + "\n"
+                    # Opening file
+                    text_file = open("bookings.txt", "a")
+                    # Writing in file
+                    text_file.write(add_booking)
+                    text_file.close()
+                    # Closing file
+                    print("Booking made successfully")
+                    answer = 0
+                else:
+                    break
+        except:
+            continue
+        else:
+            # Exit the program
+            if answer == 3:
+                print("Goodbye")
+                break
 elif x == 2:
 
     # Login of users
@@ -241,4 +299,3 @@ else:
         # If credentials of admin are false end the program
         print("You are not the administrator. Terminating the program")
         # End of admin menu
-
